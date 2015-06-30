@@ -20,9 +20,8 @@ labellio_config = Config(app.config['MODEL_FOLDER'])
 labellio_label = Label(labellio_config)
 labellio_image_loader = ImageLoader(labellio_config)
 labellio_classifier = Classifier(labellio_config)
-fp = open(labellio_config.label_file)
-labellio_label_dict = json.loads(fp.read())
-fp.close()
+with open(labellio_config.label_file) as fp:
+    labellio_label_dict = json.load(fp)
 
 
 def images(image_dir):
@@ -43,16 +42,9 @@ def exec_batch(batch, classifier, label):
 def labellio_exec(image_dir):
     global labellio_config, labellio_label, labellio_image_loader, labellio_classifier
     batch = []
-    result = {}
     for image in images(image_dir):
         batch.append((image, labellio_image_loader.load(image)))
-        if 0 < len(batch):
-            exec_batch(batch, labellio_classifier, labellio_label)
-
-    if len(batch) > 0:
-        result = exec_batch(batch, labellio_classifier, labellio_label)
-
-    return result
+    return exec_batch(batch, labellio_classifier, labellio_label)
 
 # URL
 
@@ -60,8 +52,8 @@ def labellio_exec(image_dir):
 @app.route('/', methods=['GET'])
 def help():
     return """POST your image as "image" parameter to /classify.
-(ex. curl -F "image=@test.png" http://yourdomain/classify)
-"""
+(ex. curl -F "image=@test.png" http://{0}/classify)
+""".format(request.host)
 
 
 @app.route('/classify', methods=['POST'])
