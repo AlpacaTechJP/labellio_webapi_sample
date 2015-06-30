@@ -4,7 +4,7 @@ import os
 import tempfile
 
 # pip install flask
-from flask import Flask, request, jsonify, make_response, abort
+from flask import Flask, request, make_response, abort
 from labellio import Classifier, Config, ImageLoader, Label
 
 # Flask Settings
