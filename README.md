@@ -2,4 +2,4 @@
 
 Refer the following:
 * JA: http://blog-jp.alpaca.ai/entry/2015/06/30/135214
-* EN: http://blog.alpaca.ai/
+* EN: http://blog.alpaca.ai/how-to-build-image-recognition-api-server-with-labellio/
